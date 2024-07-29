@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <title>Activity Dashboard</title>
+    <style>
+        /* CSS styles */
+        :root {
+            --bg-dark: #0f1424;
+            --card-bg: #1c1f4a;
+            --text-primary: #ffffff;
+            --text-secondary: #bdc1ff;
+            --purple: #5847eb;
+            --work: #ff8c66;
+            --play: #56c2e6;
+            --study: #ff5c7c;
+            --exercise: #4acf81;
+            --social: #7536d3;
+            --self-care: #f1c65b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .card-menu {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .card-hours {
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-previous {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .profile-card {
+            grid-row: span 2;
+            background-color: var(--purple);
+        }
+
+        .profile-info {
+            background-color: var(--purple);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .profile-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 3px solid #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .time-selection {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+
+        .time-option {
+            cursor: pointer;
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            transition: color 0.3s ease;
+        }
+
+        .time-option:hover,
+        .time-option.active {
+            color: var(--text-primary);
+        }
+
+        .card-icon {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            font-size: 4rem;
+            opacity: 0.1;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            padding: 1rem;
+            background-color: var(--card-bg);
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .dashboard {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-card {
+                grid-row: auto;
+            }
+
+            .profile-info {
+                display: flex;
+                align-items: center;
+            }
+
+            .profile-img {
+                margin-right: 1rem;
+                margin-bottom: 0;
+            }
+
+            .time-selection {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="card profile-card">
+            <div class="profile-info">
+                <img src="images\image-jeremy.png?random=1" alt="Profile" class="profile-img">
+                <div>
+                    <p>Report for</p>
+                    <h2 class="profile-name">Jeremy Robson</h2>
+                </div>
+            </div>
+            <div class="time-selection">
+                <span class="time-option" data-time="daily">Daily</span>
+                <span class="time-option active" data-time="weekly">Weekly</span>
+                <span class="time-option" data-time="monthly">Monthly</span>
+            </div>
+        </div>
+        <div class="card" style="background-color: var(--work);">
+            <div class="card-icon">🏢</div>
+            <div class="card-header">
+                <h3 class="card-title">Work</h3>
+                <span class="card-menu">⋯</span>
+            </div>
+            <div class="card-hours">32hrs</div>
+            <div class="card-previous">Last Week - 36hrs</div>
+        </div>
+        <div class="card" style="background-color: var(--play);">
+            <div class="card-icon">🎮</div>
+            <div class="card-header">
+                <h3 class="card-title">Play</h3>
+                <span class="card-menu">⋯</span>
+            </div>
+            <div class="card-hours">10hrs</div>
+            <div class="card-previous">Last Week - 8hrs</div>
+        </div>
+        <div class="card" style="background-color: var(--study);">
+            <div class="card-icon">📚</div>
+            <div class="card-header">
+                <h3 class="card-title">Study</h3>
+                <span class="card-menu">⋯</span>
+            </div>
+            <div class="card-hours">4hrs</div>
+            <div class="card-previous">Last Week - 7hrs</div>
+        </div>
+        <div class="card" style="background-color: var(--exercise);">
+            <div class="card-icon">🏋️</div>
+            <div class="card-header">
+                <h3 class="card-title">Exercise</h3>
+                <span class="card-menu">⋯</span>
+            </div>
+            <div class="card-hours">4hrs</div>
+            <div class="card-previous">Last Week - 5hrs</div>
+        </div>
+        <div class="card" style="background-color: var(--social);">
+            <div class="card-icon">💬</div>
+            <div class="card-header">
+                <h3 class="card-title">Social</h3>
+                <span class="card-menu">⋯</span>
+            </div>
+            <div class="card-hours">5hrs</div>
+            <div class="card-previous">Last Week - 10hrs</div>
+        </div>
+        <div class="card" style="background-color: var(--self-care);">
+            <div class="card-icon">🧘</div>
+            <div class="card-header">
+                <h3 class="card-title">Self Care</h3>
+                <span class="card-menu">⋯</span>
+            </div>
+            <div class="card-hours">2hrs</div>
+            <div class="card-previous">Last Week - 2hrs</div>
+        </div>
+    </div>
+    <footer>
+         Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+        Coded by <a href="https://github.com/Hackerbot24">Hackerbot24</a>.
+    </footer>
+
+    <script>
+        // JavaScript for interactivity
+        const timeOptions = document.querySelectorAll('.time-option');
+        const cards = document.querySelectorAll('.card:not(.profile-card)');
+
+        const data = {
+            daily: [
+                { title: 'Work', current: 5, previous: 7 },
+                { title: 'Play', current: 1, previous: 2 },
+                { title: 'Study', current: 0, previous: 1 },
+                { title: 'Exercise', current: 1, previous: 1 },
+                { title: 'Social', current: 1, previous: 3 },
+                { title: 'Self Care', current: 0, previous: 1 }
+            ],
+            weekly: [
+                { title: 'Work', current: 32, previous: 36 },
+                { title: 'Play', current: 10, previous: 8 },
+                { title: 'Study', current: 4, previous: 7 },
+                { title: 'Exercise', current: 4, previous: 5 },
+                { title: 'Social', current: 5, previous: 10 },
+                { title: 'Self Care', current: 2, previous: 2 }
+            ],
+            monthly: [
+                { title: 'Work', current: 103, previous: 128 },
+                { title: 'Play', current: 23, previous: 29 },
+                { title: 'Study', current: 13, previous: 19 },
+                { title: 'Exercise', current: 11, previous: 18 },
+                { title: 'Social', current: 21, previous: 23 },
+                { title: 'Self Care', current: 7, previous: 11 }
+            ]
+        };
+
+        function updateCards(timeframe) {
+            cards.forEach((card, index) => {
+                const hours = card.querySelector('.card-hours');
+                const previous = card.querySelector('.card-previous');
+                const currentData = data[timeframe][index];
+
+                hours.textContent = `${currentData.current}hrs`;
+                previous.textContent = `Last ${timeframe.slice(0, -2)} - ${currentData.previous}hrs`;
+            });
+        }
+
+        timeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                timeOptions.forEach(opt => opt.classList.remove('active'));
+                option.classList.add('active');
+                updateCards(option.dataset.time);
+            });
+        });
+
+        // Initialize with weekly data
+        updateCards('weekly');
+    </script>
+</body>
+</html>
